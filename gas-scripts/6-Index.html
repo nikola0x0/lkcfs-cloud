@@ -22,7 +22,19 @@
       font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
       background: #F5E6D3;
       background-image:
+        url('https://raw.githubusercontent.com/nikola0x0/lkcfs-cloud/main/assets/bg-stars.png'),
+        url('https://raw.githubusercontent.com/nikola0x0/lkcfs-cloud/main/assets/bg-round.png'),
+        url('https://raw.githubusercontent.com/nikola0x0/lkcfs-cloud/main/assets/bg-rabbit.png'),
+        url('https://raw.githubusercontent.com/nikola0x0/lkcfs-cloud/main/assets/bg-ring.png'),
         repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0, 0, 0, .03) 10px, rgba(0, 0, 0, .03) 20px);
+      background-position:
+        top 20px right 30px,
+        bottom 50px left 40px,
+        top 50% left 20px,
+        bottom 30px right 50px,
+        0 0;
+      background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat;
+      background-size: 150px, 200px, 180px, 160px, auto;
       min-height: 100vh;
       padding: 20px;
       display: flex;
@@ -37,12 +49,12 @@
 
     /* Decorative Star */
     .star-decoration {
-      position: fixed;
-      top: 0;
-      right: 0;
+      position: absolute;
+      top: -80px;
+      right: -80px;
       width: 250px;
       height: 250px;
-      z-index: 9999;
+      z-index: 10;
       pointer-events: none;
       transform: rotate(15deg);
     }
@@ -53,6 +65,7 @@
       box-shadow: 10px 10px 0 #000;
       margin-bottom: 30px;
       position: relative;
+      overflow: visible;
     }
 
     /* Header */
@@ -450,13 +463,12 @@
 </head>
 
 <body>
-  <!-- Decorative Star (top right corner) -->
-  <img src="https://raw.githubusercontent.com/nikola0x0/lkcfs-cloud/main/assets/star.png"
-       alt="Star"
-       class="star-decoration">
-
   <div class="container">
     <div class="card">
+      <!-- Decorative Star (top right corner) -->
+      <img src="https://raw.githubusercontent.com/nikola0x0/lkcfs-cloud/main/assets/star.png"
+           alt="Star"
+           class="star-decoration">
       <div class="header">
         <h1>
           <img src="https://cataas.com/cat/cute?width=200&height=200" alt="LK Logo" class="logo">
@@ -495,8 +507,8 @@
         </h3>
         <div class="legend-items">
           <div class="legend-item">
-            <img src="https://raw.githubusercontent.com/nikola0x0/lkcfs-cloud/main/assets/hot.svg"
-                 alt="Hot"
+            <img src="https://raw.githubusercontent.com/nikola0x0/lkcfs-cloud/main/assets/bubble.svg"
+                 alt="Bubble"
                  width="20"
                  height="20"
                  style="margin-right: 8px;">
@@ -565,7 +577,12 @@
       const lastUpdated = new Date(data.lastUpdated);
       document.getElementById('status').innerHTML = `
         <strong>Last update:</strong> ${lastUpdated.toLocaleString('vi-VN')} |
-        <strong>${data.topics.length}</strong> hot topic 🔥
+        <strong>${data.topics.length}</strong> hot topic
+        <img src="https://raw.githubusercontent.com/nikola0x0/lkcfs-cloud/main/assets/hot.svg"
+             alt="Hot"
+             width="16"
+             height="16"
+             style="vertical-align: middle; margin-left: 4px;">
       `;
 
       // Render bubbles
