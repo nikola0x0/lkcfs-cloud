@@ -5,8 +5,9 @@
   <base target="_top">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>LK Bubble 🫧</title>
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <title>LKCFS Bubble 🫧</title>
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🫧</text></svg>">
   <link
     href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=JetBrains+Mono:wght@700&display=swap"
     rel="stylesheet">
@@ -24,26 +25,22 @@
         repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0, 0, 0, .03) 10px, rgba(0, 0, 0, .03) 20px);
       min-height: 100vh;
       padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .container {
       max-width: 1400px;
-      margin: 0 auto;
+      width: 100%;
     }
 
-    /* Neo-brutalist card */
     .card {
       background: white;
       border: 5px solid #000;
       box-shadow: 10px 10px 0 #000;
       margin-bottom: 30px;
       position: relative;
-    }
-
-    .card:hover {
-      transform: translate(-2px, -2px);
-      box-shadow: 12px 12px 0 #000;
-      transition: all 0.1s ease;
     }
 
     /* Header */
@@ -56,7 +53,7 @@
     }
 
     .header::before {
-      content: "🤡";
+      content: "🫧";
       position: absolute;
       font-size: 200px;
       right: -50px;
@@ -73,6 +70,19 @@
       letter-spacing: -2px;
       margin-bottom: 10px;
       position: relative;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .header h1 .logo {
+      width: 80px;
+      height: 80px;
+      border: 4px solid #000;
+      box-shadow: 4px 4px 0 #000;
+      border-radius: 50%;
+      object-fit: cover;
+      background: white;
     }
 
     .header p {
@@ -82,7 +92,21 @@
       position: relative;
     }
 
-    /* Controls bar */
+    .badge {
+      background: #9D4EDD;
+      color: white;
+      padding: 6px 12px;
+      border: 3px solid #000;
+      box-shadow: 3px 3px 0 #000;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-left: 10px;
+    }
+
+    /* Controls */
     .controls {
       padding: 25px 30px;
       background: #FFF095;
@@ -109,55 +133,112 @@
       color: #FF6B9D;
     }
 
-    /* Neo-brutal button */
-    button {
-      font-family: 'Space Grotesk', sans-serif;
-      background: #00D9FF;
-      color: #000;
+    /* Search */
+    .search-box {
+      position: relative;
+      flex: 1;
+      max-width: 400px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px 20px;
       border: 4px solid #000;
-      padding: 15px 30px;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 16px;
       font-weight: 700;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      box-shadow: 4px 4px 0 #000;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      background: #FFFACD;
+    }
+
+    /* Bubble Container */
+    .bubble-container {
+      padding: 60px 40px;
+      min-height: 500px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      background: white;
+    }
+
+    /* Bubble */
+    .bubble {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border: 5px solid #000;
       box-shadow: 6px 6px 0 #000;
-      transition: all 0.1s ease;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
       position: relative;
+      border-radius: 50%;
+      word-wrap: break-word;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      line-height: 1.15;
+      hyphens: auto;
+      flex-shrink: 0;
     }
 
-    button:hover {
-      background: #00FFE5;
-      transform: translate(-2px, -2px);
-      box-shadow: 8px 8px 0 #000;
+    .bubble span {
+      display: block;
+      padding: 15px;
+      max-width: 90%;
+      max-height: 90%;
+      overflow: hidden;
     }
 
-    button:active {
+    .bubble:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 9px 9px 0 #000;
+    }
+
+    .bubble:active {
       transform: translate(2px, 2px);
       box-shadow: 2px 2px 0 #000;
     }
 
-    button:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: 6px 6px 0 #666;
+    .bubble.positive {
+      background: #34A853;
+      color: white;
     }
 
-    button::before {
-      content: "🔄";
-      margin-right: 8px;
+    .bubble.neutral {
+      background: #FBBC04;
+      color: #000;
     }
 
-    button:disabled::before {
-      content: "⏳";
+    .bubble.negative {
+      background: #EA4335;
+      color: white;
     }
 
-    /* Chart container */
-    #chart_div {
-      padding: 40px;
-      min-height: 600px;
-      background: white;
+    .bubble-count {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: #000;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      border: 3px solid white;
+      box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
     }
 
     /* Legend */
@@ -201,7 +282,7 @@
       box-shadow: 2px 2px 0 #000;
     }
 
-    /* Loading state */
+    /* Loading */
     .loading {
       text-align: center;
       padding: 80px 30px;
@@ -236,76 +317,121 @@
       text-transform: uppercase;
     }
 
-    /* Error state */
-    .error {
-      background: #FF6B9D;
-      color: #000;
-      padding: 20px 25px;
-      margin: 30px;
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
       border: 5px solid #000;
-      box-shadow: 8px 8px 0 #000;
-      font-weight: 700;
-      font-size: 16px;
+      box-shadow: 15px 15px 0 #000;
+      padding: 40px;
+      max-width: 500px;
+      width: 100%;
     }
 
-    .error strong {
-      font-size: 20px;
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    /* Empty state */
-    .empty-state {
-      text-align: center;
-      padding: 100px 30px;
-    }
-
-    .empty-state h2 {
+    .modal-content h2 {
       font-family: 'JetBrains Mono', monospace;
-      color: #000;
-      margin-bottom: 15px;
-      font-size: 32px;
-      text-transform: uppercase;
+      margin-bottom: 20px;
+      font-size: 24px;
     }
 
-    .empty-state p {
-      font-size: 18px;
-      color: #000;
-      font-weight: 500;
-    }
-
-    /* Badge */
-    .badge {
-      background: #9D4EDD;
-      color: white;
-      padding: 6px 12px;
+    .modal-content .stat {
+      margin: 15px 0;
+      padding: 15px;
+      background: #f5f5f5;
       border: 3px solid #000;
-      box-shadow: 3px 3px 0 #000;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
+      font-size: 18px;
+    }
+
+    .modal-close {
+      background: #FF6B9D;
+      border: 4px solid #000;
+      padding: 12px 30px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
       font-weight: 700;
-      text-transform: uppercase;
-      display: inline-block;
-      margin-left: 10px;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 #000;
+      margin-top: 20px;
+    }
+
+    .modal-close:hover {
+      background: #ff8ab5;
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 #000;
     }
 
     /* Responsive */
     @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+
       .header h1 {
-        font-size: 1.8em;
+        font-size: 1.5em;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .header h1 .logo {
+        width: 60px;
+        height: 60px;
+      }
+
+      .header p {
+        font-size: 0.9em;
       }
 
       .controls {
         flex-direction: column;
         align-items: stretch;
+        padding: 15px;
+        gap: 10px;
       }
 
-      button {
-        width: 100%;
+      .status {
+        font-size: 12px;
+        padding: 10px;
+      }
+
+      .bubble-container {
+        padding: 30px 15px;
+        gap: 15px;
+      }
+
+      .bubble span {
+        padding: 12px;
+        max-width: 85%;
+      }
+
+      .legend {
+        padding: 15px;
       }
 
       .legend-items {
         flex-direction: column;
+        gap: 10px;
+      }
+
+      .modal-content {
+        padding: 25px;
       }
     }
   </style>
@@ -315,225 +441,197 @@
   <div class="container">
     <div class="card">
       <div class="header">
-        <h1>LK Bubble<span class="badge">Live</span></h1>
-        <p> • Trong tuần qua topic nào đang hot dạ? • </p>
+        <h1>
+          <img src="https://cataas.com/cat/cute?width=200&height=200" alt="LK Logo" class="logo">
+          LKCfs Bubble
+          <span class="badge">Live</span>
+        </h1>
       </div>
 
       <div class="controls">
         <div class="status" id="status">
-          Đang lấy đồ may cây kim...
+          Đang lấy cây kim may đồ...
         </div>
-        <div class="auto-update">
-          <span style="font-size: 20px;">🔄</span>
-          <strong>Update mỗi 30 phút nha</strong>
+        <div style="font-weight: 700;">
+          <strong>Update mỗi 30p nka ⌛️</strong>
         </div>
       </div>
 
       <div id="content">
         <div class="loading">
           <div class="spinner"></div>
-          <p>Đang lấy cây kim may đồ...</p>
+          <p>Đang lấy đồ may cây kim...</p>
         </div>
       </div>
 
       <div class="legend">
-        <h3>📖 How to use</h3>
+        <h3>📖 Hướng dẫn xem</h3>
         <div class="legend-items">
           <div class="legend-item">
-            <strong>Size bubble:</strong> Hot topic
+            <strong>Big Bubble = </strong> Hot Topic
           </div>
           <div class="legend-item">
             <span class="legend-color" style="background: #34A853;"></span>
-            Tích cực
+            Positive
           </div>
           <div class="legend-item">
             <span class="legend-color" style="background: #FBBC04;"></span>
-            Bàn tán
+            Neutral
           </div>
           <div class="legend-item">
             <span class="legend-color" style="background: #EA4335;"></span>
-            Wá Sồu
+            Negative
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <script>
-    console.log('Script started loading...');
-    let chartData = null;
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <h2 id="modalTitle">Topic</h2>
+      <div class="stat">
+        <strong>Số lượng:</strong> <span id="modalCount"></span> confessions
+      </div>
+      <div class="stat">
+        <strong>Cảm xúc:</strong> <span id="modalSentiment"></span>
+      </div>
+      <div class="stat">
+        <strong>Update lúc:</strong> <span id="modalTime"></span>
+      </div>
+      <button class="modal-close" onclick="closeModal()">Đóng</button>
+    </div>
+  </div>
 
-    google.charts.load('current', { 'packages': ['corechart'] });
-    google.charts.setOnLoadCallback(function () {
-      console.log('Google Charts loaded successfully');
-      loadData();
-    });
+  <script>
+    console.log('LK Bubble loading...');
+    let allTopics = [];
+
+    loadData();
 
     function loadData() {
-      console.log('loadData() called - requesting data from server...');
+      console.log('Calling getStatisticsData()...');
       google.script.run
-        .withSuccessHandler(function (data) {
-          console.log('Data received:', data);
-          console.log('Data type:', typeof data);
-          console.log('Is null?', data === null);
-          console.log('Is undefined?', data === undefined);
-
-          if (data === null || data === undefined) {
-            console.error('Server returned null/undefined!');
-            showError({ message: 'Server returned no data. Check deployment permissions.' });
-            return;
-          }
-
-          renderChart(data);
-        })
-        .withFailureHandler(function (error) {
-          console.error('Error loading data:', error);
-          showError(error);
-        })
+        .withSuccessHandler(renderBubbles)
+        .withFailureHandler(showError)
         .getStatisticsData();
     }
 
-    function renderChart(data) {
-      chartData = data;
+    function renderBubbles(data) {
+      console.log('Data received:', data);
 
-      if (!data.topics || data.topics.length === 0) {
-        showEmptyState(data.message);
+      if (!data || !data.topics || data.topics.length === 0) {
+        document.getElementById('content').innerHTML =
+          '<div class="loading"><p>Hỏng có gì hết trơn</p></div>';
         return;
       }
 
+      allTopics = data.topics;
+
+      // Update status
       const lastUpdated = new Date(data.lastUpdated);
       document.getElementById('status').innerHTML = `
-        <strong>Update lúc:</strong> ${lastUpdated.toLocaleString('vi-VN')} |
-        <strong>${data.confessionCount}</strong> cfs |
-        <strong>${data.topics.length}</strong> topic hot
+        <strong>Last update:</strong> ${lastUpdated.toLocaleString('vi-VN')} |
+        <strong>${data.topics.length}</strong> hot topic 🔥
       `;
 
-      const chartDataArray = [['ID', 'Count', 'Sentiment', 'Topic', 'Size']];
-
-      data.topics.forEach((topic) => {
-        chartDataArray.push([
-          topic.topic,
-          topic.count,
-          topic.sentiment,
-          topic.topic,
-          topic.count * 120
-        ]);
-      });
-
-      const dataTable = google.visualization.arrayToDataTable(chartDataArray);
-
-      const options = {
-        title: 'Topic Đang Hot',
-        titleTextStyle: {
-          fontName: 'Space Grotesk',
-          fontSize: 24,
-          bold: true,
-          color: '#000'
-        },
-        hAxis: {
-          title: '📊 Số Lượng Cfs',
-          titleTextStyle: { bold: true, fontSize: 14, color: '#000' },
-          minValue: 0,
-          gridlines: { color: '#e0e0e0', count: 5 },
-          textStyle: { fontSize: 12, color: '#000', bold: true }
-        },
-        vAxis: {
-          title: '😊 Cảm Xúc (Pùn ← → Zui)',
-          titleTextStyle: { bold: true, fontSize: 14, color: '#000' },
-          minValue: -1,
-          maxValue: 1,
-          gridlines: { color: '#e0e0e0', count: 5 },
-          baseline: 0,
-          baselineColor: '#000',
-          textStyle: { fontSize: 12, color: '#000', bold: true }
-        },
-        bubble: {
-          textStyle: {
-            fontSize: 13,
-            color: '#000',
-            bold: true,
-            fontName: 'Space Grotesk'
-          },
-          stroke: '#000',
-          strokeWidth: 3
-        },
-        colorAxis: {
-          colors: ['#EA4335', '#FBBC04', '#34A853'],
-          minValue: -1,
-          maxValue: 1
-        },
-        sizeAxis: {
-          minSize: 8,
-          maxSize: 30
-        },
-        chartArea: {
-          width: '85%',
-          height: '70%',
-          backgroundColor: '#FAFAFA'
-        },
-        backgroundColor: 'white',
-        legend: 'none',
-        tooltip: {
-          textStyle: { fontName: 'Space Grotesk', fontSize: 14 }
-        }
-      };
-
-      document.getElementById('content').innerHTML = '<div id="chart_div"></div>';
-      const chart = new google.visualization.BubbleChart(document.getElementById('chart_div'));
-      chart.draw(dataTable, options);
+      // Render bubbles
+      displayBubbles(allTopics);
     }
 
-    function showEmptyState(message) {
-      document.getElementById('content').innerHTML = `
-        <div class="empty-state">
-          <h2>📭 Chưa Có Data Nèee</h2>
-          <p>${message || 'Đợi xíu đang mò...'}</p>
-        </div>
-      `;
-      document.getElementById('status').innerHTML = '<strong>Status:</strong> Chưa có data';
+    function displayBubbles(topics) {
+      const container = document.createElement('div');
+      container.className = 'bubble-container';
+
+      // Calculate sizes (min 80px, max 200px)
+      const maxCount = Math.max(...topics.map(t => t.count));
+      const minCount = Math.min(...topics.map(t => t.count));
+
+      topics.forEach(topic => {
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+
+        // Size based on count
+        const sizePercent = (topic.count - minCount) / (maxCount - minCount);
+        const size = 100 + (sizePercent * 120); // 100px to 220px
+        bubble.style.width = size + 'px';
+        bubble.style.height = size + 'px';
+
+        // Dynamic font size based on bubble size AND text length
+        const textLength = topic.topic.length;
+        let fontSize;
+        if (size < 130) {
+          // Small bubbles: very small text for long topics
+          fontSize = textLength > 30 ? 8 : (textLength > 25 ? 9 : (textLength > 20 ? 10 : 11));
+        } else if (size < 170) {
+          // Medium bubbles
+          fontSize = textLength > 35 ? 10 : (textLength > 30 ? 11 : (textLength > 25 ? 12 : 13));
+        } else {
+          // Large bubbles
+          fontSize = textLength > 40 ? 12 : (textLength > 35 ? 13 : (textLength > 30 ? 14 : 15));
+        }
+        bubble.style.fontSize = fontSize + 'px';
+
+        // Color based on sentiment
+        if (topic.sentiment >= 0.3) {
+          bubble.classList.add('positive');
+        } else if (topic.sentiment <= -0.3) {
+          bubble.classList.add('negative');
+        } else {
+          bubble.classList.add('neutral');
+        }
+
+        // Content
+        bubble.innerHTML = `
+          <span>${topic.topic}</span>
+          <div class="bubble-count">${topic.count}</div>
+        `;
+
+        // Click event
+        bubble.onclick = () => showModal(topic);
+
+        container.appendChild(bubble);
+      });
+
+      document.getElementById('content').innerHTML = '';
+      document.getElementById('content').appendChild(container);
+    }
+
+    function showModal(topic) {
+      document.getElementById('modalTitle').textContent = topic.topic;
+      document.getElementById('modalCount').textContent = topic.count;
+
+      let sentimentText = topic.sentiment >= 0.3 ? '😊 Tích cực' :
+        topic.sentiment <= -0.3 ? '😢 Tiêu cực' : '😐 Bình thường';
+      sentimentText += ` (${topic.sentiment.toFixed(2)})`;
+      document.getElementById('modalSentiment').textContent = sentimentText;
+
+      const time = new Date(topic.lastUpdated);
+      document.getElementById('modalTime').textContent = time.toLocaleString('vi-VN');
+
+      document.getElementById('modal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
     }
 
     function showError(error) {
-      document.getElementById('content').innerHTML = `
-        <div class="error">
-          <strong>⚠️ Uida! Có lỗi ùi</strong>
-          ${error.message || 'Thử refresh lại trang nka'}
-        </div>
-      `;
+      console.error('Error:', error);
+      document.getElementById('content').innerHTML =
+        '<div class="loading"><p>⚠️ Ủa lỗi rồi! Thử lại nka 🥲</p></div>';
     }
 
-    function refreshData() {
-      const btn = document.getElementById('refreshBtn');
-      btn.disabled = true;
-      btn.textContent = 'Analyzing...';
+    // Auto-refresh every 30 minutes (matches server-side analysis trigger)
+    setInterval(loadData, 30 * 60 * 1000);
 
-      document.getElementById('content').innerHTML = `
-        <div class="loading">
-          <div class="spinner"></div>
-          <p>Đang mò nà...</p>
-        </div>
-      `;
-
-      google.script.run
-        .withSuccessHandler(function (result) {
-          if (result.success) {
-            loadData();
-          } else {
-            showError(result);
-          }
-          btn.disabled = false;
-          btn.textContent = 'Refresh Now';
-        })
-        .withFailureHandler(function (error) {
-          showError(error);
-          btn.disabled = false;
-          btn.textContent = 'Refresh Now';
-        })
-        .triggerAnalysisFromWeb();
-    }
-
-    // Auto-refresh every 5 minutes
-    setInterval(loadData, 5 * 60 * 1000);
+    // Close modal on background click
+    document.getElementById('modal').addEventListener('click', function (e) {
+      if (e.target.id === 'modal') {
+        closeModal();
+      }
+    });
   </script>
 </body>
 

@@ -155,8 +155,12 @@ Edit AI prompt in `3-AIAnalyzer.gs` lines 16-49
 
 ## 📝 License
 
-MIT
+MIT License - see [LICENSE](LICENSE) file for details.
+
+Copyright (c) 2025 Le Tien Phat
 
 ## 👨‍💻 Author
 
-Built for Long Khánh High School Confessions. By nikola0x0.
+**Le Tien Phat** ([@nikola0x0](https://github.com/nikola0x0))
+
+Built for Long Khánh High School Confessions.
