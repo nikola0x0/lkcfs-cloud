@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LK Bubble 🫧</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #FF6B9D;
+      margin-bottom: 20px;
+    }
+    .status {
+      background: #FFF095;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    .loading {
+      text-align: center;
+      padding: 40px;
+    }
+    .error {
+      background: #ffebee;
+      color: #c62828;
+      padding: 20px;
+      border-radius: 5px;
+      margin: 20px 0;
+    }
+    pre {
+      background: #f5f5f5;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>LK Bubble - Test Version</h1>
+    <div class="status" id="status">Loading...</div>
+    <div id="content">
+      <div class="loading">Đang load data...</div>
+    </div>
+    <div id="debug"></div>
+  </div>
+
+  <script>
+    console.log('=== LK Bubble Test Version ===');
+
+    // Test if google.script.run is available
+    if (typeof google === 'undefined' || !google.script) {
+      document.getElementById('content').innerHTML =
+        '<div class="error">ERROR: google.script.run not available. Are you viewing this as a Web App?</div>';
+    } else {
+      console.log('google.script.run is available');
+      loadData();
+    }
+
+    function loadData() {
+      console.log('Calling getStatisticsData()...');
+
+      google.script.run
+        .withSuccessHandler(onSuccess)
+        .withFailureHandler(onFailure)
+        .getStatisticsData();
+    }
+
+    function onSuccess(data) {
+      console.log('SUCCESS! Data received:', data);
+
+      document.getElementById('status').innerHTML =
+        '<strong>✅ Data loaded successfully!</strong>';
+
+      let html = '<h2>Raw Data:</h2><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+
+      if (data && data.topics) {
+        html += '<h2>Topics (' + data.topics.length + '):</h2><ul>';
+        data.topics.forEach(function(topic) {
+          html += '<li><strong>' + topic.topic + '</strong> - ' +
+                  topic.count + ' cfs, sentiment: ' + topic.sentiment + '</li>';
+        });
+        html += '</ul>';
+      }
+
+      document.getElementById('content').innerHTML = html;
+    }
+
+    function onFailure(error) {
+      console.error('FAILURE! Error:', error);
+
+      document.getElementById('status').innerHTML =
+        '<strong style="color:red">❌ Error loading data</strong>';
+
+      document.getElementById('content').innerHTML =
+        '<div class="error"><strong>Error:</strong><br>' +
+        JSON.stringify(error, null, 2) + '</div>';
+    }
+  </script>
+</body>
+</html>

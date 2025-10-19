@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LK Bubble 🫧</title>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=JetBrains+Mono:wght@700&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #F5E6D3;
+      background-image:
+        repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0, 0, 0, .03) 10px, rgba(0, 0, 0, .03) 20px);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Neo-brutalist card */
+    .card {
+      background: white;
+      border: 5px solid #000;
+      box-shadow: 10px 10px 0 #000;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 12px 12px 0 #000;
+      transition: all 0.1s ease;
+    }
+
+    /* Header */
+    .header {
+      background: #FF6B9D;
+      border-bottom: 5px solid #000;
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: "🤡";
+      position: absolute;
+      font-size: 200px;
+      right: -50px;
+      top: -80px;
+      opacity: 0.3;
+    }
+
+    .header h1 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2.5em;
+      font-weight: 700;
+      color: #000;
+      text-transform: uppercase;
+      letter-spacing: -2px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .header p {
+      font-size: 1.1em;
+      color: #000;
+      font-weight: 500;
+      position: relative;
+    }
+
+    /* Controls bar */
+    .controls {
+      padding: 25px 30px;
+      background: #FFF095;
+      border-bottom: 5px solid #000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .status {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: #000;
+      font-weight: 700;
+      background: white;
+      padding: 12px 20px;
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0 #000;
+    }
+
+    .status strong {
+      color: #FF6B9D;
+    }
+
+    /* Neo-brutal button */
+    button {
+      font-family: 'Space Grotesk', sans-serif;
+      background: #00D9FF;
+      color: #000;
+      border: 4px solid #000;
+      padding: 15px 30px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 6px 6px 0 #000;
+      transition: all 0.1s ease;
+      position: relative;
+    }
+
+    button:hover {
+      background: #00FFE5;
+      transform: translate(-2px, -2px);
+      box-shadow: 8px 8px 0 #000;
+    }
+
+    button:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 #000;
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: 6px 6px 0 #666;
+    }
+
+    button::before {
+      content: "🔄";
+      margin-right: 8px;
+    }
+
+    button:disabled::before {
+      content: "⏳";
+    }
+
+    /* Chart container */
+    #chart_div {
+      padding: 40px;
+      min-height: 600px;
+      background: white;
+    }
+
+    /* Legend */
+    .legend {
+      padding: 25px 30px;
+      background: #C4F0FF;
+      border-top: 5px solid #000;
+    }
+
+    .legend h3 {
+      font-family: 'JetBrains Mono', monospace;
+      margin: 0 0 20px 0;
+      color: #000;
+      font-size: 18px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .legend-items {
+      display: flex;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: white;
+      padding: 12px 18px;
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0 #000;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .legend-color {
+      width: 24px;
+      height: 24px;
+      border: 3px solid #000;
+      box-shadow: 2px 2px 0 #000;
+    }
+
+    /* Loading state */
+    .loading {
+      text-align: center;
+      padding: 80px 30px;
+    }
+
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 6px solid #000;
+      border-top: 6px solid #FF6B9D;
+      border-radius: 50%;
+      margin: 0 auto 30px;
+      animation: spin 1s linear infinite;
+      box-shadow: 4px 4px 0 #000;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading p {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      font-weight: 700;
+      color: #000;
+      text-transform: uppercase;
+    }
+
+    /* Error state */
+    .error {
+      background: #FF6B9D;
+      color: #000;
+      padding: 20px 25px;
+      margin: 30px;
+      border: 5px solid #000;
+      box-shadow: 8px 8px 0 #000;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .error strong {
+      font-size: 20px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 100px 30px;
+    }
+
+    .empty-state h2 {
+      font-family: 'JetBrains Mono', monospace;
+      color: #000;
+      margin-bottom: 15px;
+      font-size: 32px;
+      text-transform: uppercase;
+    }
+
+    .empty-state p {
+      font-size: 18px;
+      color: #000;
+      font-weight: 500;
+    }
+
+    /* Badge */
+    .badge {
+      background: #9D4EDD;
+      color: white;
+      padding: 6px 12px;
+      border: 3px solid #000;
+      box-shadow: 3px 3px 0 #000;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-left: 10px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 1.8em;
+      }
+
+      .controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      .legend-items {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="header">
+        <h1>LK Bubble<span class="badge">Live</span></h1>
+        <p> • Trong tuần qua topic nào đang hot dạ? • </p>
+      </div>
+
+      <div class="controls">
+        <div class="status" id="status">
+          Đang lấy đồ may cây kim...
+        </div>
+        <div class="auto-update">
+          <span style="font-size: 20px;">🔄</span>
+          <strong>Update mỗi 30 phút nha</strong>
+        </div>
+      </div>
+
+      <div id="content">
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Đang lấy cây kim may đồ...</p>
+        </div>
+      </div>
+
+      <div class="legend">
+        <h3>📖 How to use</h3>
+        <div class="legend-items">
+          <div class="legend-item">
+            <strong>Size bubble:</strong> Hot topic
+          </div>
+          <div class="legend-item">
+            <span class="legend-color" style="background: #34A853;"></span>
+            Tích cực
+          </div>
+          <div class="legend-item">
+            <span class="legend-color" style="background: #FBBC04;"></span>
+            Bàn tán
+          </div>
+          <div class="legend-item">
+            <span class="legend-color" style="background: #EA4335;"></span>
+            Wá Sồu
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    console.log('Script started loading...');
+    let chartData = null;
+
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(function () {
+      console.log('Google Charts loaded successfully');
+      loadData();
+    });
+
+    function loadData() {
+      console.log('loadData() called - requesting data from server...');
+      google.script.run
+        .withSuccessHandler(function (data) {
+          console.log('Data received:', data);
+          console.log('Data type:', typeof data);
+          console.log('Is null?', data === null);
+          console.log('Is undefined?', data === undefined);
+
+          if (data === null || data === undefined) {
+            console.error('Server returned null/undefined!');
+            showError({ message: 'Server returned no data. Check deployment permissions.' });
+            return;
+          }
+
+          renderChart(data);
+        })
+        .withFailureHandler(function (error) {
+          console.error('Error loading data:', error);
+          showError(error);
+        })
+        .getStatisticsData();
+    }
+
+    function renderChart(data) {
+      chartData = data;
+
+      if (!data.topics || data.topics.length === 0) {
+        showEmptyState(data.message);
+        return;
+      }
+
+      const lastUpdated = new Date(data.lastUpdated);
+      document.getElementById('status').innerHTML = `
+        <strong>Update lúc:</strong> ${lastUpdated.toLocaleString('vi-VN')} |
+        <strong>${data.confessionCount}</strong> cfs |
+        <strong>${data.topics.length}</strong> topic hot
+      `;
+
+      const chartDataArray = [['ID', 'Count', 'Sentiment', 'Topic', 'Size']];
+
+      data.topics.forEach((topic) => {
+        chartDataArray.push([
+          topic.topic,
+          topic.count,
+          topic.sentiment,
+          topic.topic,
+          topic.count * 120
+        ]);
+      });
+
+      const dataTable = google.visualization.arrayToDataTable(chartDataArray);
+
+      const options = {
+        title: 'Topic Đang Hot',
+        titleTextStyle: {
+          fontName: 'Space Grotesk',
+          fontSize: 24,
+          bold: true,
+          color: '#000'
+        },
+        hAxis: {
+          title: '📊 Số Lượng Cfs',
+          titleTextStyle: { bold: true, fontSize: 14, color: '#000' },
+          minValue: 0,
+          gridlines: { color: '#e0e0e0', count: 5 },
+          textStyle: { fontSize: 12, color: '#000', bold: true }
+        },
+        vAxis: {
+          title: '😊 Cảm Xúc (Pùn ← → Zui)',
+          titleTextStyle: { bold: true, fontSize: 14, color: '#000' },
+          minValue: -1,
+          maxValue: 1,
+          gridlines: { color: '#e0e0e0', count: 5 },
+          baseline: 0,
+          baselineColor: '#000',
+          textStyle: { fontSize: 12, color: '#000', bold: true }
+        },
+        bubble: {
+          textStyle: {
+            fontSize: 13,
+            color: '#000',
+            bold: true,
+            fontName: 'Space Grotesk'
+          },
+          stroke: '#000',
+          strokeWidth: 3
+        },
+        colorAxis: {
+          colors: ['#EA4335', '#FBBC04', '#34A853'],
+          minValue: -1,
+          maxValue: 1
+        },
+        sizeAxis: {
+          minSize: 8,
+          maxSize: 30
+        },
+        chartArea: {
+          width: '85%',
+          height: '70%',
+          backgroundColor: '#FAFAFA'
+        },
+        backgroundColor: 'white',
+        legend: 'none',
+        tooltip: {
+          textStyle: { fontName: 'Space Grotesk', fontSize: 14 }
+        }
+      };
+
+      document.getElementById('content').innerHTML = '<div id="chart_div"></div>';
+      const chart = new google.visualization.BubbleChart(document.getElementById('chart_div'));
+      chart.draw(dataTable, options);
+    }
+
+    function showEmptyState(message) {
+      document.getElementById('content').innerHTML = `
+        <div class="empty-state">
+          <h2>📭 Chưa Có Data Nèee</h2>
+          <p>${message || 'Đợi xíu đang mò...'}</p>
+        </div>
+      `;
+      document.getElementById('status').innerHTML = '<strong>Status:</strong> Chưa có data';
+    }
+
+    function showError(error) {
+      document.getElementById('content').innerHTML = `
+        <div class="error">
+          <strong>⚠️ Uida! Có lỗi ùi</strong>
+          ${error.message || 'Thử refresh lại trang nka'}
+        </div>
+      `;
+    }
+
+    function refreshData() {
+      const btn = document.getElementById('refreshBtn');
+      btn.disabled = true;
+      btn.textContent = 'Analyzing...';
+
+      document.getElementById('content').innerHTML = `
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Đang mò nà...</p>
+        </div>
+      `;
+
+      google.script.run
+        .withSuccessHandler(function (result) {
+          if (result.success) {
+            loadData();
+          } else {
+            showError(result);
+          }
+          btn.disabled = false;
+          btn.textContent = 'Refresh Now';
+        })
+        .withFailureHandler(function (error) {
+          showError(error);
+          btn.disabled = false;
+          btn.textContent = 'Refresh Now';
+        })
+        .triggerAnalysisFromWeb();
+    }
+
+    // Auto-refresh every 5 minutes
+    setInterval(loadData, 5 * 60 * 1000);
+  </script>
+</body>
+
+</html>
