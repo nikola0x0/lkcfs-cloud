@@ -9,7 +9,7 @@
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🫧</text></svg>">
   <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=JetBrains+Mono:wght@700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=JetBrains+Mono:wght@700&family=Nerko+One&display=swap"
     rel="stylesheet">
   <style>
     * {
@@ -94,10 +94,10 @@
 
 
     .header h1 {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 2.5em;
-      font-weight: 700;
-      color: #000;
+      font-family: 'Nerko One', cursive;
+      font-size: 4.5em;
+      font-weight: 400;
+      color: #FFF;
       text-transform: uppercase;
       letter-spacing: -2px;
       margin-bottom: 10px;
@@ -323,12 +323,11 @@
     .spinner {
       width: 60px;
       height: 60px;
-      border: 6px solid #000;
+      border: 6px solid rgba(0, 0, 0, 0.1);
       border-top: 6px solid #FF6B9D;
       border-radius: 50%;
       margin: 0 auto 30px;
       animation: spin 1s linear infinite;
-      box-shadow: 4px 4px 0 #000;
     }
 
     @keyframes spin {
@@ -415,8 +414,15 @@
         padding: 10px;
       }
 
+      .star-decoration {
+        width: 120px;
+        height: 120px;
+        top: -30px;
+        right: -20px;
+      }
+
       .header h1 {
-        font-size: 1.5em;
+        font-size: 2.5em;
         gap: 10px;
         flex-wrap: wrap;
         justify-content: center;
@@ -425,6 +431,10 @@
       .header h1 .logo {
         width: 60px;
         height: 60px;
+      }
+
+      .header h1 .badge {
+        display: none;
       }
 
       .header p {
@@ -488,9 +498,9 @@
           Đang lấy cây kim may đồ...
         </div>
         <div style="font-weight: 700; display: flex; align-items: center; gap: 8px;">
-          <img src="https://raw.githubusercontent.com/nikola0x0/lkcfs-cloud/main/assets/clock.svg" alt="Clock"
-            width="36" height="36">
           <strong>Update mỗi 30p nka</strong>
+          <img src="https://raw.githubusercontent.com/nikola0x0/lkcfs-cloud/main/assets/clock.svg" alt="Clock"
+            width="52" height="52">
         </div>
       </div>
 
@@ -504,7 +514,7 @@
       <div class="legend">
         <h3 style="display: flex; align-items: center; gap: 8px;">
           <img src="https://raw.githubusercontent.com/nikola0x0/lkcfs-cloud/main/assets/how-to.svg" alt="How to"
-            width="24" height="24">
+            width="32" height="32">
           Chú thích
         </h3>
         <div class="legend-items">
@@ -592,11 +602,14 @@
       const container = document.createElement('div');
       container.className = 'bubble-container';
 
-      // Calculate sizes (min 80px, max 200px)
-      const maxCount = Math.max(...topics.map(t => t.count));
-      const minCount = Math.min(...topics.map(t => t.count));
+      // Sort topics by count (descending) so highest count gets #1
+      const sortedTopics = [...topics].sort((a, b) => b.count - a.count);
 
-      topics.forEach(topic => {
+      // Calculate sizes (min 80px, max 200px)
+      const maxCount = Math.max(...sortedTopics.map(t => t.count));
+      const minCount = Math.min(...sortedTopics.map(t => t.count));
+
+      sortedTopics.forEach((topic, index) => {
         const bubble = document.createElement('div');
         bubble.className = 'bubble';
 
@@ -630,10 +643,10 @@
           bubble.classList.add('neutral');
         }
 
-        // Content
+        // Content with rank instead of count
         bubble.innerHTML = `
           <span>${topic.topic}</span>
-          <div class="bubble-count">${topic.count}</div>
+          <div class="bubble-count">#${index + 1}</div>
         `;
 
         // Click event
@@ -650,10 +663,13 @@
       document.getElementById('modalTitle').textContent = topic.topic;
       document.getElementById('modalCount').textContent = topic.count;
 
-      let sentimentText = topic.sentiment >= 0.3 ? '😊 Tích cực' :
-        topic.sentiment <= -0.3 ? '😢 Tiêu cực' : '😐 Bình thường';
-      sentimentText += ` (${topic.sentiment.toFixed(2)})`;
-      document.getElementById('modalSentiment').textContent = sentimentText;
+      let sentimentIcon = topic.sentiment >= 0.3
+        ? '<img src="https://raw.githubusercontent.com/nikola0x0/lkcfs-cloud/main/assets/positive-emote.svg" alt="Positive" width="20" height="20" style="vertical-align: middle; margin-right: 4px;"> Tích cực'
+        : topic.sentiment <= -0.3
+          ? '<img src="https://raw.githubusercontent.com/nikola0x0/lkcfs-cloud/main/assets/negative-emote.svg" alt="Negative" width="20" height="20" style="vertical-align: middle; margin-right: 4px;"> Tiêu cực'
+          : '<img src="https://raw.githubusercontent.com/nikola0x0/lkcfs-cloud/main/assets/normal-emote.svg" alt="Normal" width="20" height="20" style="vertical-align: middle; margin-right: 4px;"> Bình thường';
+      sentimentIcon += ` (${topic.sentiment.toFixed(2)})`;
+      document.getElementById('modalSentiment').innerHTML = sentimentIcon;
 
       const time = new Date(topic.lastUpdated);
       document.getElementById('modalTime').textContent = time.toLocaleString('vi-VN');

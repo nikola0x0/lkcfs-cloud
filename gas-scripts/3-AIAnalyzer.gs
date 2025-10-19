@@ -13,7 +13,7 @@ function analyzeWithAI(confessions) {
 
   const confessionText = prepareTextForAI(confessions);
 
-  const systemPrompt = `You are analyzing Vietnamese high school student confessions. Extract topics that capture WHAT STUDENTS ARE ACTUALLY TALKING ABOUT - include the juicy details!
+  const systemPrompt = `You are analyzing Vietnamese high school student confessions. Extract topics that show what's TRENDING at school right now - specific enough to be interesting, general enough to group similar confessions.
 
 Return ONLY a valid JSON array (no markdown, no explanations) with this exact format:
 [
@@ -25,27 +25,43 @@ Return ONLY a valid JSON array (no markdown, no explanations) with this exact fo
 ]
 
 CRITICAL Requirements:
-- Return 5-15 topics maximum
+- Return 5-12 topics maximum
 - Only include topics mentioned by at least ${CONFIG.MIN_TOPIC_COUNT} confessions
-- Be SPECIFIC and INTERESTING! Include the actual details students mention:
+- Balance SPECIFICITY with GROUPING:
 
-  ❌ TOO BORING: "Thích bạn nhưng không dám nói" (generic!)
-  ✅ INTERESTING: "Crush ngồi gần nhưng hổng dám hỏi tên"
-  ✅ INTERESTING: "Thầy X dạy khó hiểu quá"
+  ❌ TOO SPECIFIC: "Crush bạn THTV B3, Xuân Nghi B4, Nhật Long A10" → Don't list individual names
+  ❌ TOO GENERAL: "Hỏi thông tin bạn học / Crush" → Too boring!
+  ✅ JUST RIGHT: "Xin info bạn nữ/nam xinh/đẹp trong trường" → Tells what's happening without naming people
 
-  ❌ TOO BORING: "Mất đồ ở trường"
-  ✅ INTERESTING: "Bình nước mất tích giờ ra chơi"
-  ✅ INTERESTING: "Đồng phục thể dục chậm trễ giữa kỳ"
+  ❌ TOO SPECIFIC: "Review thầy Văn Trung dạy khó hiểu"
+  ❌ TOO GENERAL: "Góp ý giáo viên"
+  ✅ JUST RIGHT: "Thầy Văn dạy khó hiểu muốn đổi lớp" → Mentions subject/issue, groups similar teachers
 
-  ❌ TOO BORING: "Áp lực thi cuối kỳ"
-  ✅ INTERESTING: "Toán cuối kỳ sợ rớt môn"
-  ✅ INTERESTING: "Học kỳ 2 lười quá chạy deadline"
+  ❌ TOO SPECIFIC: "Mất ví, son, tiền dưới gốc cây"
+  ❌ TOO GENERAL: "Mất đồ ở trường"
+  ✅ JUST RIGHT: "Mất đồ ở căn tin giữa giờ ra chơi" → Tells WHERE and WHEN
 
-- INCLUDE SPECIFIC DETAILS: subjects, teacher names (abbreviated), specific items, time periods, emotions
-- If multiple confessions mention the SAME SPECIFIC THING → include it!
-- Make topics CATCHY - students should think "omg that's so relatable!"
-- Focus on what makes each confession UNIQUE and INTERESTING
-- Sentiment: -1.0 (very negative) to +1.0 (very positive)
+  ❌ TOO SPECIFIC: "Xin tài liệu Toán thầy Đức 12, lớp 11 cũ"
+  ❌ TOO GENERAL: "Xin tài liệu học tập"
+  ✅ JUST RIGHT: "Xin tài liệu ôn Toán cuối kỳ lớp 12" → Tells WHAT subject and WHY
+
+  ✅ MORE GOOD EXAMPLES:
+  - "Đồng phục thể dục chậm phát nửa kỳ"
+  - "Lập đội bóng chuyền nữ thiếu người"
+  - "Lớp C12 friendly với cả trường"
+  - "Kiểm duyệt confes lỏng quá nhiều spam"
+  - "Toán cuối kỳ khó sợ rớt môn"
+
+RULES:
+- Group confessions asking about DIFFERENT people → "Xin info bạn đẹp/xinh trong trường"
+- Group confessions about DIFFERENT teachers of SAME subject → "Thầy Văn dạy khó hiểu"
+- Group confessions about SIMILAR items lost → "Mất đồ ở căn tin"
+- Keep SPECIFIC DETAILS that make it interesting: subjects, locations, time, emotions, specific events
+- Remove IDENTIFYING INFO: don't list specific names, classes (A10, B3, etc)
+- If 3+ confessions mention THE EXACT SAME SPECIFIC THING → keep it specific!
+- Make students think "oh yeah that's happening right now!"
+- Count represents how many confessions match this topic
+- Sentiment: -1.0 (very negative) to +1.0 (very positive), averaged across grouped confessions
 - Return ONLY the JSON array, no other text`;
 
   const userPrompt = `Extract topics from these Vietnamese student confessions:
