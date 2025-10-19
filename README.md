@@ -94,9 +94,11 @@ Edit `3-AIAnalyzer.gs` → `systemPrompt` to adjust topic extraction:
 ## 🔒 Security
 
 - ⚠️ **Never commit `.env`** - it contains your API key
+- ⚠️ **Never commit real API keys in `1-Config.gs`** - Use placeholder "YOUR_OPENROUTER_API_KEY_HERE"
 - ✅ `.env.example` is safe to commit (no secrets)
 - ✅ `.gitignore` protects your secrets
-- 🔑 For Google Apps Script, API key is hardcoded in `1-Config.gs` (keep that private)
+- 🔑 When deploying to Google Apps Script, manually replace the placeholder with your real API key
+- 🚨 **If you accidentally push API keys to GitHub**: Revoke them immediately at https://openrouter.ai/keys
 
 ## 🎨 UI Customization
 
