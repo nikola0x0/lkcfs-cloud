@@ -35,6 +35,18 @@
       width: 100%;
     }
 
+    /* Decorative Star */
+    .star-decoration {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 250px;
+      height: 250px;
+      z-index: 9999;
+      pointer-events: none;
+      transform: rotate(15deg);
+    }
+
     .card {
       background: white;
       border: 5px solid #000;
@@ -438,6 +450,11 @@
 </head>
 
 <body>
+  <!-- Decorative Star (top right corner) -->
+  <img src="https://raw.githubusercontent.com/nikola0x0/lkcfs-cloud/main/assets/star.png"
+       alt="Star"
+       class="star-decoration">
+
   <div class="container">
     <div class="card">
       <div class="header">
@@ -452,8 +469,12 @@
         <div class="status" id="status">
           Đang lấy cây kim may đồ...
         </div>
-        <div style="font-weight: 700;">
-          <strong>Update mỗi 30p nka ⌛️</strong>
+        <div style="font-weight: 700; display: flex; align-items: center; gap: 8px;">
+          <img src="https://raw.githubusercontent.com/nikola0x0/lkcfs-cloud/main/assets/clock.svg"
+               alt="Clock"
+               width="20"
+               height="20">
+          <strong>Update mỗi 30p nka</strong>
         </div>
       </div>
 
@@ -465,9 +486,20 @@
       </div>
 
       <div class="legend">
-        <h3>📖 Hướng dẫn xem</h3>
+        <h3 style="display: flex; align-items: center; gap: 8px;">
+          <img src="https://raw.githubusercontent.com/nikola0x0/lkcfs-cloud/main/assets/how-to.svg"
+               alt="How to"
+               width="24"
+               height="24">
+          Hướng dẫn xem
+        </h3>
         <div class="legend-items">
           <div class="legend-item">
+            <img src="https://raw.githubusercontent.com/nikola0x0/lkcfs-cloud/main/assets/hot.svg"
+                 alt="Hot"
+                 width="20"
+                 height="20"
+                 style="margin-right: 8px;">
             <strong>Big Bubble = </strong> Hot Topic
           </div>
           <div class="legend-item">

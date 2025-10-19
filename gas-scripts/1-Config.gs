@@ -9,7 +9,7 @@
 const CONFIG = {
   // ========== API CONFIGURATION ==========
   // OpenRouter API (using free DeepSeek model)
-  OPENROUTER_API_KEY: "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",
+  OPENROUTER_API_KEY: "YOUR_OPENROUTER_API_KEY_HERE",
   OPENROUTER_API_URL: "https://openrouter.ai/api/v1/chat/completions",
   OPENROUTER_MODEL: "tngtech/deepseek-r1t2-chimera:free", // 163K context, free!
 
