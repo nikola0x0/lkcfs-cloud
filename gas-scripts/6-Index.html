@@ -40,7 +40,7 @@
 
     body::before {
       content: '';
-      position: fixed;
+      position: absolute;
       bottom: 40px;
       right: 50px;
       width: 120px;
@@ -509,7 +509,7 @@
           Đang lấy cây kim may đồ...
         </div>
         <div style="font-weight: 700; display: flex; align-items: center; gap: 8px;">
-          <strong>Update mỗi 30p nka</strong>
+          <strong>Update mỗi 2 tiếng nka</strong>
           <img src="https://raw.githubusercontent.com/nikola0x0/lkcfs-cloud/main/assets/clock.svg" alt="Clock"
             width="52" height="52">
         </div>
@@ -698,8 +698,8 @@
         '<div class="loading"><p>⚠️ Ủa lỗi rồi! Thử lại nka 🥲</p></div>';
     }
 
-    // Auto-refresh every 30 minutes (matches server-side analysis trigger)
-    setInterval(loadData, 30 * 60 * 1000);
+    // Auto-refresh every 1 hour (client-side cache refresh)
+    setInterval(loadData, 60 * 60 * 1000);
 
     // Close modal on background click
     document.getElementById('modal').addEventListener('click', function (e) {

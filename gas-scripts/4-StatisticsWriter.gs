@@ -64,7 +64,7 @@ function runCompleteAnalysis() {
     Logger.log(`Found ${confessions.length} confessions to analyze`);
 
     // Step 2: Analyze with AI
-    Logger.log("Step 2: Analyzing with DeepSeek R1T2 Chimera...");
+    Logger.log("Step 2: Analyzing with Gemini (primary) or OpenRouter (fallback)...");
     const topics = analyzeWithAI(confessions);
 
     if (topics.length === 0) {
@@ -97,6 +97,10 @@ function runCompleteAnalysis() {
 /**
  * Set up automatic trigger to run analysis periodically
  * Run this once to enable auto-refresh
+ *
+ * FREE TIER OPTIMIZATION:
+ * - Every 2 hours = 12 API requests/day (leaves 38 buffer for testing)
+ * - OpenRouter free tier: 50 requests/day
  */
 function setupAutoRefresh() {
   // Delete existing triggers first
@@ -107,30 +111,21 @@ function setupAutoRefresh() {
     }
   });
 
-  // Only create new trigger if AUTO_REFRESH_MINUTES > 0
-  if (CONFIG.AUTO_REFRESH_MINUTES > 0) {
-    // Use everyHours for 60 minutes, or everyMinutes for shorter intervals (1, 5, 10, 15, 30)
-    if (CONFIG.AUTO_REFRESH_MINUTES >= 60) {
-      ScriptApp.newTrigger("runCompleteAnalysis")
-        .timeBased()
-        .everyHours(Math.floor(CONFIG.AUTO_REFRESH_MINUTES / 60))
-        .create();
+  // Create trigger using AUTO_REFRESH_HOURS
+  // Google Apps Script supports: 1, 2, 4, 6, 8, or 12 hours
+  if (CONFIG.AUTO_REFRESH_HOURS > 0) {
+    ScriptApp.newTrigger("runCompleteAnalysis")
+      .timeBased()
+      .everyHours(CONFIG.AUTO_REFRESH_HOURS)
+      .create();
 
-      Logger.log(
-        `Auto-refresh enabled: will run every ${Math.floor(CONFIG.AUTO_REFRESH_MINUTES / 60)} hour(s)`
-      );
-    } else {
-      ScriptApp.newTrigger("runCompleteAnalysis")
-        .timeBased()
-        .everyMinutes(CONFIG.AUTO_REFRESH_MINUTES)
-        .create();
-
-      Logger.log(
-        `Auto-refresh enabled: will run every ${CONFIG.AUTO_REFRESH_MINUTES} minutes`
-      );
-    }
+    const dailyRequests = Math.floor(24 / CONFIG.AUTO_REFRESH_HOURS);
+    Logger.log(
+      `✅ Auto-refresh enabled: Every ${CONFIG.AUTO_REFRESH_HOURS} hour(s) = ${dailyRequests} API requests/day`
+    );
+    Logger.log(`📊 Free tier limit: 50 requests/day. Buffer: ${50 - dailyRequests} requests`);
   } else {
-    Logger.log("Auto-refresh is disabled (AUTO_REFRESH_MINUTES = 0)");
+    Logger.log("⚠️ Auto-refresh is disabled (AUTO_REFRESH_HOURS = 0)");
   }
 }
 

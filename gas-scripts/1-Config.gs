@@ -7,12 +7,23 @@
  */
 
 const CONFIG = {
-  // ========== API CONFIGURATION ==========
-  // OpenRouter API (using free DeepSeek model)
-  // IMPORTANT: Replace this with your actual API key from https://openrouter.ai/keys
+  // ========== PRIMARY API: Google Gemini ==========
+  // Get your FREE API key from: https://makersuite.google.com/app/apikey
+  // Gemini 2.5 Flash: 1M+ token context, 15 req/min, 1,500 req/day (30x more than OpenRouter!)
+  // IMPORTANT: Replace this with your actual API key
+  GEMINI_API_KEY: "YOUR_GEMINI_API_KEY_HERE",
+  GEMINI_MODEL: "gemini-2.5-flash", // Options: gemini-2.5-flash, gemini-2.5-flash-lite (fastest)
+  GEMINI_API_URL: "https://generativelanguage.googleapis.com/v1beta/models/",
+  USE_GEMINI_FALLBACK: true, // Set to false to use OpenRouter only (not recommended)
+  GEMINI_THINKING_BUDGET: 8192, // Thinking tokens: 0 (off/fast), 8192 (balanced), 24576 (max reasoning)
+
+  // ========== FALLBACK API: OpenRouter ==========
+  // Get your key: https://openrouter.ai/keys
+  // Free tier: 50 requests/day (used only when Gemini fails)
+  // This acts as emergency backup, preserving your OpenRouter quota
   OPENROUTER_API_KEY: "YOUR_OPENROUTER_API_KEY_HERE",
   OPENROUTER_API_URL: "https://openrouter.ai/api/v1/chat/completions",
-  OPENROUTER_MODEL: "tngtech/deepseek-r1t2-chimera:free", // 163K context, free!
+  OPENROUTER_MODEL: "tngtech/deepseek-r1t2-chimera:free", // Emergency fallback model
 
   // ========== SHEET CONFIGURATION ==========
   SPREADSHEET_ID: "1iWKEbc70RrxPBUXBj2xNJkq92LcFRUF7LBGzNRQgmxg", // Your Google Sheet ID
@@ -35,7 +46,7 @@ const CONFIG = {
   // ========== ANALYSIS SETTINGS ==========
   CONFESSION_LIMIT: 90, // Analyze last 90 confessions (exactly 1 week of data)
   MIN_TOPIC_COUNT: 2, // Minimum confessions per topic (lowered to show more topics)
-  AUTO_REFRESH_MINUTES: 60, // Auto-refresh every hour (production setting)
+  AUTO_REFRESH_HOURS: 2, // Auto-refresh every 2 hours (FREE tier: 12 API calls/day, 38 buffer)
 };
 
 /**
